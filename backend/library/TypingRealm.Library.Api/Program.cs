@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
 // Applied on controllers, this attribute makes sure a number of API-related
 // things happen, for example: 400 is thrown when random string is passed as a
@@ -17,7 +18,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 // Without this, Swashbuckle middleware cannot be constructed because of missing deps.
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "TypingRealm Library API",
+        Version = "v1",
+        Description = "Library API provides a possibility to manage an indexed library of books and generate texts for typing based on specific search criterias."
+    });
+});
 
 var app = builder.Build();
 
