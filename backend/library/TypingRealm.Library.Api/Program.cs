@@ -39,7 +39,15 @@ app.MapGet("/now", () => new
     Date = DateTime.UtcNow
 });
 
+// Need to enable this to server swagger.css styles.
+// Needs to be before UseSwaggerUI for favicon to load.
+app.UseStaticFiles();
+
 app.UseSwagger(); // Without this, swagger json definition doesn't exist (and the page cannot load it).
-app.UseSwaggerUI(); // Without this, swagger page doesn't exist.
+app.UseSwaggerUI(c =>
+{
+    c.DocumentTitle = "TypingRealm Library API Documentation";
+    c.InjectStylesheet("/swagger/styles.css");
+}); // Without this, swagger page doesn't exist.
 
 await app.RunAsync();
